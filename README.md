@@ -33,8 +33,8 @@ Before you begin, ensure you have the following installed on your system:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/retro-music-player.git
-   cd retro-music-player
+   git clone https://github.com/username/looporia.git
+   cd looporia
    ```
 
 2. Install dependencies:
