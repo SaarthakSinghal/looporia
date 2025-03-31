@@ -79,12 +79,6 @@ export default {
 					'burgundy': '#722222',
 					'rust': '#8B3A22',
 					'forest': '#2C3C25',
-					// New neon retro colors
-					'neon-pink': '#FF1493',
-					'neon-blue': '#00BFFF',
-					'neon-green': '#39FF14',
-					'neon-yellow': '#FFFF00',
-					'neon-purple': '#9D00FF',
 				}
 			},
 			borderRadius: {
@@ -93,10 +87,9 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				'pixel': ['"Press Start 2P"', '"Silkscreen"', 'system-ui', 'sans-serif'],
+				'pixel': ['"Press Start 2P"', 'system-ui', 'sans-serif'],
 				'retro': ['"VT323"', 'monospace'],
-				'crt': ['"Courier Prime"', '"Space Mono"', 'monospace'],
-				'display': ['"Rubik Mono One"', 'system-ui', 'sans-serif']
+				'crt': ['"Courier Prime"', 'monospace']
 			},
 			keyframes: {
 				'accordion-down': {
@@ -143,33 +136,6 @@ export default {
 						backgroundPosition: '100% 100%',
 					}
 				},
-				'glitch': {
-					'0%': { 
-						textShadow: '0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'14%': { 
-						textShadow: '0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'15%': { 
-						textShadow: '-0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'49%': { 
-						textShadow: '-0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'50%': { 
-						textShadow: '0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'99%': { 
-						textShadow: '0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75)' 
-					},
-					'100%': { 
-						textShadow: '-0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75)' 
-					},
-				},
-				'tape-spin': {
-					'0%': { transform: 'rotate(0deg)' },
-					'100%': { transform: 'rotate(360deg)' }
-				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -177,16 +143,11 @@ export default {
 				'blink': 'blink 1s step-end infinite',
 				'scan': 'scan 6s linear infinite',
 				'static': 'static 0.5s infinite',
-				'glitch': 'glitch 3s infinite',
-				'tape-spin': 'tape-spin 2s linear infinite'
 			},
 			backgroundImage: {
 				'crt-lines': 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 2px)',
 				'noise': 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.5\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
 				'scanline': 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3))',
-				'gradient-1': 'linear-gradient(90deg, hsla(24, 100%, 83%, 1) 0%, hsla(341, 91%, 68%, 1) 100%)',
-				'gradient-2': 'linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)',
-				'gradient-3': 'linear-gradient(90deg, hsla(139, 70%, 75%, 1) 0%, hsla(63, 90%, 76%, 1) 100%)'
 			}
 		}
 	},
