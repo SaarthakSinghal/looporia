@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Plus, Music, Disc3, LogOut } from 'lucide-react';
-import RetroMusicPlayer from '@/components/RetroMusicPlayer';
-import { useToast } from '@/hooks/use-toast';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Plus, Music, Disc3, LogOut } from "lucide-react";
+import RetroMusicPlayer from "@/components/RetroMusicPlayer";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 interface Playlist {
   id: string;
@@ -24,9 +23,9 @@ const Dashboard = () => {
     const fetchPlaylists = async () => {
       try {
         const { data, error } = await supabase
-          .from('playlists')
-          .select('*')
-          .order('created_at', { ascending: false });
+          .from("playlists")
+          .select("*")
+          .order("created_at", { ascending: false });
 
         if (error) throw error;
         setPlaylists(data || []);
@@ -34,7 +33,7 @@ const Dashboard = () => {
         toast({
           title: "Error loading playlists",
           description: error.message,
-          variant: "destructive"
+          variant: "destructive",
         });
       } finally {
         setLoading(false);
@@ -45,29 +44,29 @@ const Dashboard = () => {
   }, [toast]);
 
   const handleCreatePlaylist = async () => {
-    const playlistName = prompt('Enter playlist name:');
+    const playlistName = prompt("Enter playlist name:");
     if (!playlistName) return;
 
     try {
       const { data, error } = await supabase
-        .from('playlists')
+        .from("playlists")
         .insert([{ name: playlistName, user_id: user?.id }])
         .select()
         .single();
 
       if (error) throw error;
-      
+
       toast({
         title: "Playlist created",
-        description: `"${playlistName}" has been added to your library.`
+        description: `"${playlistName}" has been added to your library.`,
       });
-      
+
       setPlaylists([data, ...playlists]);
     } catch (error: any) {
       toast({
         title: "Error creating playlist",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -78,7 +77,7 @@ const Dashboard = () => {
         <div>
           <Link to="/">
             <h1 className="text-3xl md:text-4xl font-pixel text-retro-brown-3 mb-2">
-              RETRO RHYTHM REVAMP
+              LOOPORIA
             </h1>
           </Link>
           <p className="font-retro text-xl text-retro-brown-2">
@@ -87,11 +86,17 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="mt-4 md:mt-0 flex space-x-2">
-          <Button className="retro-btn flex items-center gap-2" onClick={handleCreatePlaylist}>
+          <Button
+            className="retro-btn flex items-center gap-2"
+            onClick={handleCreatePlaylist}
+          >
             <Plus size={16} />
             <span>NEW PLAYLIST</span>
           </Button>
-          <Button className="retro-btn-danger flex items-center gap-2" onClick={signOut}>
+          <Button
+            className="retro-btn-danger flex items-center gap-2"
+            onClick={signOut}
+          >
             <LogOut size={16} />
             <span>LOGOUT</span>
           </Button>
@@ -104,10 +109,12 @@ const Dashboard = () => {
             <Disc3 className="mr-2" />
             MY PLAYLISTS
           </h2>
-          
+
           {loading ? (
             <div className="bg-retro-beige retro-border p-6 text-center">
-              <p className="font-retro text-xl text-retro-brown-2">Loading playlists...</p>
+              <p className="font-retro text-xl text-retro-brown-2">
+                Loading playlists...
+              </p>
             </div>
           ) : playlists.length === 0 ? (
             <div className="bg-retro-beige retro-border p-6 text-center">
@@ -121,7 +128,7 @@ const Dashboard = () => {
           ) : (
             <div className="bg-retro-beige retro-border p-2">
               {playlists.map((playlist) => (
-                <div 
+                <div
                   key={playlist.id}
                   className="flex items-center p-3 border-b border-retro-tan-2 last:border-b-0 hover:bg-retro-tan-1 cursor-pointer"
                 >
@@ -131,7 +138,8 @@ const Dashboard = () => {
                       {playlist.name}
                     </h3>
                     <p className="text-sm text-retro-brown-2">
-                      Created {new Date(playlist.created_at).toLocaleDateString()}
+                      Created{" "}
+                      {new Date(playlist.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -139,7 +147,7 @@ const Dashboard = () => {
             </div>
           )}
         </div>
-        
+
         <div>
           <h2 className="text-2xl font-pixel text-retro-brown-3 mb-4">
             NOW PLAYING

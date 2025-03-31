@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Music, Play } from 'lucide-react';
 
@@ -16,10 +15,10 @@ interface TrackListProps {
   onSelectTrack: (index: number) => void;
 }
 
-const TrackList: React.FC<TrackListProps> = ({ 
-  tracks, 
-  currentTrackIndex, 
-  onSelectTrack 
+const TrackList: React.FC<TrackListProps> = ({
+  tracks,
+  currentTrackIndex,
+  onSelectTrack
 }) => {
   // Format time in MM:SS
   const formatTime = (time: number): string => {
@@ -31,7 +30,7 @@ const TrackList: React.FC<TrackListProps> = ({
   return (
     <div className="max-h-64 overflow-y-auto bg-retro-beige retro-border p-1 font-retro">
       {tracks.map((track, index) => (
-        <div 
+        <div
           key={track.id}
           className={`flex items-center p-2 border-b border-retro-tan-2 last:border-b-0 hover:bg-retro-tan-1 cursor-pointer transition-colors ${currentTrackIndex === index ? 'bg-retro-tan-2' : ''}`}
           onClick={() => onSelectTrack(index)}

@@ -1,0 +1,116 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  'https://hvsxibnxezarozhldbxr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2c3hpYm54ZXphcm96aGxkYnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzOTgyMjUsImV4cCI6MjA1ODk3NDIyNX0.5RAPTwbggYPfJm8F7TH0vA9kbOCJ0uHkudvAEHMvhCM'
+);
+
+export const uploadAudio = async (file, fileName) => {
+  const { data, error } = await supabase.storage
+    .from('audio-files')
+    .upload(`${fileName}.mp3`, file, {
+      contentType: 'audio/mp3',
+    });
+
+  if (error) {
+    console.error('Error uploading:', error);
+    return null;
+  }
+
+  return data.path;
+};
+
+export const addTrackToDatabase = async (title, filePath) => {
+  const { data, error } = await supabase
+    .from('tracks')
+    .insert([
+      {
+        title,
+        file_path: filePath,
+        duration: 0
+      }
+    ])
+    .select();
+
+  if (error) {
+    console.error('Error adding track:', error);
+    return null;
+  }
+
+  return data[0];
+};
+
+export const trackService = {
+  // Get all tracks
+  async getAllTracks() {
+    const { data, error } = await supabase
+      .from('tracks')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching tracks:', error);
+      return [];
+    }
+
+    // Transform data to match your Track interface
+    return data.map(track => ({
+      id: track.id,
+      title: track.title,
+      artist: track.artist,
+      duration: track.duration,
+      src: this.getStreamUrl(track.file_path)
+    }));
+  },
+
+  // Get a single track by ID
+  async getTrackById(id) {
+    const { data, error } = await supabase
+      .from('tracks')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching track:', error);
+      return null;
+    }
+
+    return {
+      id: data.id,
+      title: data.title,
+      artist: data.artist,
+      duration: data.duration,
+      src: this.getStreamUrl(data.file_path)
+    };
+  },
+
+  // Generate a signed URL for streaming
+  async getStreamUrl(filePath) {
+    console.log(filePath);
+    const { data, error } = await supabase.storage
+      .from('audio-files')
+      .createSignedUrl(filePath, 3600, {
+        download: false, // Set to false to enable streaming
+      });
+
+    if (error) {
+      console.error('Error creating signed URL:', error);
+      return null;
+    }
+
+    return data.signedUrl;
+  },
+
+  // Update track duration after metadata loads
+  async updateTrackDuration(id, duration) {
+    const { error } = await supabase
+      .from('audio-tracks')
+      .update({ duration })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating duration:', error);
+    }
+  }
+};

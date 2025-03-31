@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import AudioUploadTest from "./pages/AudioUploadTest";
 import MusicExploration from "./pages/MusicExploration";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
             } />
             <Route path="/about" element={<About />} />
             <Route path="/player" element={<Index />} />
+            <Route path="/test" element={<AudioUploadTest  />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
