@@ -1,4 +1,6 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Courier+Prime&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=Rubik+Mono+One&family=Space+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,6 +46,13 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Add neon colors */
+    --neon-pink: 330 100% 60%;
+    --neon-blue: 210 100% 60%;
+    --neon-green: 140 100% 50%;
+    --neon-yellow: 60 100% 60%;
+    --neon-purple: 270 100% 60%;
   }
 
   .dark {
@@ -100,11 +109,29 @@
   .retro-border {
     @apply border-2 border-retro-brown-2 shadow-[4px_4px_0_0_theme(colors.retro.brown-3)];
   }
+  
+  .retro-border-glow {
+    @apply border-2 border-retro-neon-pink shadow-[0_0_10px_theme(colors.retro.neon-pink),inset_0_0_5px_theme(colors.retro.neon-pink)];
+  }
 
   .retro-btn {
     @apply px-4 py-2 bg-retro-tan-1 border-2 border-retro-brown-2 shadow-[3px_3px_0_0_theme(colors.retro.brown-3)]
     active:shadow-[1px_1px_0_0_theme(colors.retro.brown-3)] active:translate-x-[2px] active:translate-y-[2px]
     transition-all duration-100 font-retro text-lg text-retro-brown-3 hover:bg-retro-tan-2;
+  }
+
+  .retro-btn-cassette {
+    @apply px-4 py-2 bg-gradient-to-r from-retro-neon-pink/70 to-retro-neon-blue/70 border-2 border-retro-brown-2 
+    shadow-[3px_3px_0_0_theme(colors.retro.brown-3),0_0_6px_theme(colors.retro.neon-pink)]
+    active:shadow-[1px_1px_0_0_theme(colors.retro.brown-3)] active:translate-x-[2px] active:translate-y-[2px]
+    transition-all duration-100 font-pixel text-base text-retro-beige hover:from-retro-neon-pink hover:to-retro-neon-blue;
+  }
+  
+  .retro-btn-vinyl {
+    @apply px-4 py-2 bg-gradient-to-r from-retro-neon-green/70 to-retro-neon-blue/70 border-2 border-retro-brown-2 
+    shadow-[3px_3px_0_0_theme(colors.retro.brown-3),0_0_6px_theme(colors.retro.neon-green)]
+    active:shadow-[1px_1px_0_0_theme(colors.retro.brown-3)] active:translate-x-[2px] active:translate-y-[2px]
+    transition-all duration-100 font-pixel text-base text-retro-beige hover:from-retro-neon-green hover:to-retro-neon-blue;
   }
 
   .retro-btn-danger {
@@ -151,6 +178,55 @@
     );
     z-index: 11;
   }
+  
+  .retro-window {
+    @apply bg-retro-beige retro-border rounded-none overflow-hidden;
+  }
+  
+  .retro-window-header {
+    @apply flex items-center bg-retro-tan-2 p-2 border-b-2 border-retro-brown-2;
+  }
+  
+  .retro-window-content {
+    @apply p-4;
+  }
+  
+  .text-glitch {
+    position: relative;
+    animation: glitch 3s infinite;
+  }
+  
+  .cassette-click {
+    transition: transform 0.1s ease;
+  }
+  
+  .cassette-click:active {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 140, 0.4), -0.05em -0.025em 0 rgba(0, 255, 200, 0.4);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 140, 0.4), -0.05em -0.025em 0 rgba(0, 255, 200, 0.4);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 140, 0.4), 0.025em 0.025em 0 rgba(0, 255, 200, 0.4);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 140, 0.4), 0.025em 0.025em 0 rgba(0, 255, 200, 0.4);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 140, 0.4), 0.05em 0 0 rgba(0, 255, 200, 0.4);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 140, 0.4), 0.05em 0 0 rgba(0, 255, 200, 0.4);
+  }
+  100% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 140, 0.4), -0.05em -0.025em 0 rgba(0, 255, 200, 0.4);
+  }
 }
 
 @keyframes float {
@@ -160,4 +236,22 @@
   100% {
     transform: translateY(-20px);
   }
+}
+
+@keyframes tape-turn {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes static {
+  0%, 100% { background-position: 0% 0%; }
+  10%, 90% { background-position: 20% 20%; }
+  20%, 80% { background-position: 40% 40%; }
+  30%, 70% { background-position: 60% 60%; }
+  40%, 60% { background-position: 80% 80%; }
+  50% { background-position: 100% 100%; }
 }
