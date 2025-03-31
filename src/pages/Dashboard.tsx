@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Plus, Music, Disc3, LogOut, ArrowLeft } from "lucide-react";
+import { Plus, Music, Disc3, LogOut, ArrowLeft, Trash } from "lucide-react";
 import RetroMusicPlayer from "@/components/RetroMusicPlayer";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -43,6 +43,10 @@ const Dashboard = () => {
     fetchPlaylists();
   }, [toast]);
 
+  const [newPlaylistName, setNewPlaylistName] = useState("");
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+
   const handleCreatePlaylist = async () => {
     const playlistName = prompt("Enter playlist name:");
     if (!playlistName) return;
@@ -65,6 +69,31 @@ const Dashboard = () => {
     } catch (error: any) {
       toast({
         title: "Error creating playlist",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Add a delete playlist handler
+  const handleDeletePlaylist = async (id: string, name: string) => {
+    const confirmDelete = confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirmDelete) return;
+
+    try {
+      const { error } = await supabase.from("playlists").delete().eq("id", id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Playlist deleted",
+        description: `"${name}" has been removed from your library.`,
+      });
+
+      setPlaylists(playlists.filter((playlist) => playlist.id !== id));
+    } catch (error: any) {
+      toast({
+        title: "Error deleting playlist",
         description: error.message,
         variant: "destructive",
       });
@@ -143,18 +172,30 @@ const Dashboard = () => {
               {playlists.map((playlist) => (
                 <div
                   key={playlist.id}
-                  className="flex items-center p-3 border-b border-retro-tan-2 last:border-b-0 hover:bg-retro-tan-1 cursor-pointer"
+                  className="flex items-center justify-between p-3 border-b border-retro-tan-2 last:border-b-0 hover:bg-retro-tan-1"
                 >
-                  <Music className="mr-3 text-retro-brown-3" size={20} />
-                  <div>
-                    <h3 className="font-retro text-lg text-retro-brown-3">
-                      {playlist.name}
-                    </h3>
-                    <p className="text-sm text-retro-brown-2">
-                      Created{" "}
-                      {new Date(playlist.created_at).toLocaleDateString()}
-                    </p>
+                  <div className="flex items-center cursor-pointer">
+                    <Music className="mr-3 text-retro-brown-3" size={20} />
+                    <div>
+                      <h3 className="font-retro text-lg text-retro-brown-3">
+                        {playlist.name}
+                      </h3>
+                      <p className="text-sm text-retro-brown-2">
+                        Created{" "}
+                        {new Date(playlist.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-retro-brown-2 hover:text-retro-brown-3 hover:bg-retro-tan-2"
+                    onClick={() =>
+                      handleDeletePlaylist(playlist.id, playlist.name)
+                    }
+                  >
+                    <Trash size={16} />
+                  </Button>
                 </div>
               ))}
             </div>

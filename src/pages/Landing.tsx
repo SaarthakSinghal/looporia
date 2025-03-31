@@ -14,7 +14,7 @@ const Landing = () => {
   useEffect(() => {
     if (audioRef.current) {
       if (bgMusicPlaying) {
-        audioRef.current.volume = 0.4;
+        audioRef.current.volume = 0.01;
         audioRef.current.play().catch((err) => {
           console.error("Could not autoplay background music:", err);
           setBgMusicPlaying(false);
@@ -154,7 +154,7 @@ const Landing = () => {
 
       <audio
         ref={audioRef}
-        src="https://cdn.freesound.org/previews/633/633621_14015157-lq.mp3"
+        src="https://hvsxibnxezarozhldbxr.supabase.co/storage/v1/object/public/audio-files//lofi-295209.mp3"
         loop
         preload="auto"
       />
