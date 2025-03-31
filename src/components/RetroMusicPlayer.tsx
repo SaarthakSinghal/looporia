@@ -34,7 +34,7 @@ const sampleTracks: Track[] = [
   {
     id: 2,
     title: "FictionJunction, LiSA - from the edge",
-    artist: "LiSA",
+    artist: "LiSA",tree -I "node_modules" -L 3
     duration: 0,
     src: "https://hvsxibnxezarozhldbxr.supabase.co/storage/v1/object/public/audio-files//FictionJunction,%20LiSA%20-%20from%20the%20edge.mp3",
   },
