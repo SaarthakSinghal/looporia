@@ -1,8 +1,8 @@
-# Retro Music Player
+# Looporia
 
 ## Overview
 
-Retro Music Player is a modern web application built with React, TypeScript, and Tailwind CSS that provides a nostalgic music playback experience. The project uses Vite as a build tool and integrates with Supabase for authentication and audio file storage.
+Looporia is a modern web application built with React, TypeScript, and Tailwind CSS that provides a nostalgic music playback experience. The project uses Vite as a build tool and integrates with Supabase for authentication and audio file storage.
 
 ## Table of Contents
 
