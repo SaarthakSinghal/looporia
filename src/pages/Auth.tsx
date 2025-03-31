@@ -173,7 +173,7 @@ const Auth = () => {
 
       <audio
         ref={audioRef}
-        src="https://cdn.freesound.org/previews/632/632317_13724595-lq.mp3"
+        src="https://hvsxibnxezarozhldbxr.supabase.co/storage/v1/object/public/audio-files//retro-gaming-271301.mp3"
         loop
         preload="auto"
       />
