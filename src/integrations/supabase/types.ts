@@ -9,7 +9,98 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      playlists: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      tracks: {
+        Row: {
+          album: string | null
+          artist: string
+          audio_url: string
+          cover_url: string | null
+          created_at: string
+          duration: number | null
+          id: string
+          playlist_id: string | null
+          title: string
+        }
+        Insert: {
+          album?: string | null
+          artist: string
+          audio_url: string
+          cover_url?: string | null
+          created_at?: string
+          duration?: number | null
+          id?: string
+          playlist_id?: string | null
+          title: string
+        }
+        Update: {
+          album?: string | null
+          artist?: string
+          audio_url?: string
+          cover_url?: string | null
+          created_at?: string
+          duration?: number | null
+          id?: string
+          playlist_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracks_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
