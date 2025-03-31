@@ -44,19 +44,19 @@ const MusicExploration: React.FC = () => {
     // Check if this is user's first login and load preferences
     const fetchUserPreferences = async () => {
       if (!user) return;
-      
+
       try {
         const { data, error } = await supabase
           .from('profiles')
           .select('preferences')
           .eq('id', user.id)
           .single();
-          
+
         if (error) throw error;
-        
+
         if (data && data.preferences) {
           setUserPreferences(data.preferences as UserPreferences);
-          
+
           // If it's first login, show the preferences modal
           if (data.preferences.firstLogin) {
             setShowPreferencesModal(true);
@@ -66,29 +66,29 @@ const MusicExploration: React.FC = () => {
         console.error('Error fetching preferences:', error.message);
       }
     };
-    
+
     fetchUserPreferences();
   }, [user]);
-  
+
   const savePreferences = async () => {
     if (!user) return;
-    
+
     try {
       const newPreferences = {
         firstLogin: false,
         favoriteGenres: selectedGenres,
       };
-      
+
       const { error } = await supabase
         .from('profiles')
         .update({ preferences: newPreferences })
         .eq('id', user.id);
-        
+
       if (error) throw error;
-      
+
       setUserPreferences(newPreferences);
       setShowPreferencesModal(false);
-      
+
       toast({
         title: "Preferences saved!",
         description: "We'll use your music taste to recommend songs you'll love.",
@@ -101,7 +101,7 @@ const MusicExploration: React.FC = () => {
       });
     }
   };
-  
+
   const toggleGenreSelection = (genre: string) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter(g => g !== genre));
@@ -122,14 +122,8 @@ const MusicExploration: React.FC = () => {
             <span className="animate-blink inline-block ml-1">|</span>
           </p>
         </div>
-        
+
         <div className="flex space-x-2">
-          <Link to="/player">
-            <Button className="retro-btn flex items-center gap-2">
-              <Music size={16} />
-              <span className="hidden md:inline">PLAYER</span>
-            </Button>
-          </Link>
           <Link to="/dashboard">
             <Button className="retro-btn flex items-center gap-2">
               <Library size={16} />
@@ -148,14 +142,14 @@ const MusicExploration: React.FC = () => {
               RECOMMENDED FOR YOU
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recommendedPlaylists.map(playlist => (
-              <div 
+              <div
                 key={playlist.id}
                 className="bg-retro-beige retro-border p-4 cursor-pointer hover:bg-retro-tan-1 transition-colors"
               >
-                <div 
+                <div
                   className="h-40 mb-4 retro-border bg-retro-brown-1"
                   style={{ backgroundImage: playlist.image, backgroundSize: 'cover' }}
                 ></div>
@@ -165,7 +159,7 @@ const MusicExploration: React.FC = () => {
             ))}
           </div>
         </section>
-        
+
         {/* Browse by Genre */}
         <section>
           <div className="flex items-center mb-4">
@@ -174,14 +168,14 @@ const MusicExploration: React.FC = () => {
               BROWSE BY GENRE
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {musicGenres.map(genre => (
-              <div 
+              <div
                 key={genre.id}
                 className="bg-retro-beige retro-border p-4 text-center cursor-pointer hover:bg-retro-tan-1 transition-colors"
               >
-                <div 
+                <div
                   className="h-24 mb-3 retro-border bg-retro-brown-1"
                   style={{ backgroundImage: genre.image, backgroundSize: 'cover' }}
                 ></div>
@@ -191,7 +185,7 @@ const MusicExploration: React.FC = () => {
           </div>
         </section>
       </div>
-      
+
       {/* First Login Preferences Modal */}
       {showPreferencesModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -203,18 +197,18 @@ const MusicExploration: React.FC = () => {
               Let us know your music taste to personalize your experience.
               <span className="animate-blink inline-block ml-1">|</span>
             </p>
-            
+
             <h3 className="font-retro text-xl text-retro-brown-3 mb-2">
               Select your favorite genres:
             </h3>
-            
+
             <div className="grid grid-cols-2 gap-2 mb-6">
               {musicGenres.map(genre => (
-                <button 
+                <button
                   key={genre.id}
                   className={`p-2 font-retro text-lg retro-border ${
-                    selectedGenres.includes(genre.name) 
-                      ? 'bg-retro-tan-2 text-retro-brown-3' 
+                    selectedGenres.includes(genre.name)
+                      ? 'bg-retro-tan-2 text-retro-brown-3'
                       : 'bg-retro-beige text-retro-brown-2'
                   }`}
                   onClick={() => toggleGenreSelection(genre.name)}
@@ -223,9 +217,9 @@ const MusicExploration: React.FC = () => {
                 </button>
               ))}
             </div>
-            
+
             <div className="flex justify-center">
-              <Button 
+              <Button
                 className="retro-btn text-xl px-8 py-3"
                 onClick={savePreferences}
                 disabled={selectedGenres.length === 0}
@@ -236,9 +230,9 @@ const MusicExploration: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       {/* Add the mini player at the bottom */}
-      <MusicPlayerMini autoPlay={true} />
+      <MusicPlayerMini autoPlay={false} />
     </div>
   );
 };

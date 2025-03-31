@@ -313,14 +313,6 @@ const RetroMusicPlayer: React.FC<{ autoPlay?: boolean }> = ({}) => {
     <div className="max-w-3xl mx-auto my-8">
       <div className="bg-retro-beige retro-border p-4 relative overflow-hidden pixel-corners">
         <div className="flex justify-between items-center mb-2">
-          <button
-            onClick={handleNavigateBack}
-            className="retro-btn px-2 py-1 flex items-center"
-            aria-label="Back to Explore"
-          >
-            <ArrowLeft size={16} className="mr-1" />
-            <span className="font-pixel text-xs">BACK</span>
-          </button>
         </div>
         <div className="bg-retro-brown-2 text-retro-beige p-2 mb-4 font-pixel text-center text-lg shadow-inner">
           <span className="inline-block animate-pulse">

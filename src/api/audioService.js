@@ -1,4 +1,48 @@
 import { supabase } from "@/integrations/supabase/client";
+import * as musicMetadata from 'music-metadata';
+async function fetchAudioFiles() {
+  try {
+    // List all files in the "audio-files" bucket
+    const { data: files, error } = await supabase.storage
+      .from('audio-files')
+      .list();
+
+    if (error) {
+      console.error('Error fetching files:', error);
+      return [];
+    }
+
+    // Map through files to generate track objects
+    const tracks = await Promise.all(
+      files.map(async (file) => {
+        const publicUrl = supabase.storage.from('audio-files').getPublicUrl(file.name).data.publicUrl;
+
+        // Fetch metadata from the audio file
+        const response = await fetch(publicUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const metadata = await musicMetadata.parseBlob(new Blob([arrayBuffer]));
+
+        return {
+          id: file.id || file.name, // Use file name as ID if no ID exists
+          title: metadata.common.title || file.name.replace('.mp3', ''), // Fallback to file name if no title
+          artist: metadata.common.artist || 'Unknown Artist',
+          duration: Math.round(metadata.format.duration || 0), // Duration in seconds
+          src: publicUrl,
+        };
+      })
+    );
+
+    return tracks;
+  } catch (err) {
+    console.error('Error processing audio files:', err);
+    return [];
+  }
+}
+
+// Example usage
+fetchAudioFiles().then((tracks) => {
+  console.log('Tracks:', tracks);
+});
 
 export const uploadAudio = async (file, fileName) => {
   const { data, error } = await supabase.storage

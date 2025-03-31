@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Plus, Music, Disc3, LogOut } from "lucide-react";
+import { Plus, Music, Disc3, LogOut, ArrowLeft } from "lucide-react";
 import RetroMusicPlayer from "@/components/RetroMusicPlayer";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Playlist {
   id: string;
@@ -71,6 +71,11 @@ const Dashboard = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const handleNavigateBack = () => {
+    navigate("/explore");
+  };
+
   return (
     <div className="min-h-screen py-8 px-4 relative crt-overlay">
       <header className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -86,6 +91,14 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="mt-4 md:mt-0 flex space-x-2">
+          <button
+            onClick={handleNavigateBack}
+            className="retro-btn px-2 py-1 flex items-center"
+            aria-label="Back to Explore"
+          >
+            <ArrowLeft size={16} className="mr-1" />
+            <span className="font-pixel text-xs">BACK</span>
+          </button>
           <Button
             className="retro-btn flex items-center gap-2"
             onClick={handleCreatePlaylist}
@@ -94,7 +107,7 @@ const Dashboard = () => {
             <span>NEW PLAYLIST</span>
           </Button>
           <Button
-            className="retro-btn-danger flex items-center gap-2"
+            className="retro-btn flex items-center gap-2"
             onClick={signOut}
           >
             <LogOut size={16} />

@@ -45,7 +45,8 @@ function AudioUploadTest() {
           const title = fileName.replace(/_/g, ' ');
 
           await addTrackToDatabase(title, path);
-        } 
+          console.log("Track added to database:", title);
+        }
       }
 
       // Refresh track list
