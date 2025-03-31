@@ -8,9 +8,7 @@ const supabase = createClient(
 export const uploadAudio = async (file, fileName) => {
   const { data, error } = await supabase.storage
     .from('audio-files')
-    .upload(`${fileName}.mp3`, file, {
-      contentType: 'audio/mp3',
-    });
+    .upload(`${fileName}`, file);
 
   if (error) {
     console.error('Error uploading:', error);
@@ -87,19 +85,17 @@ export const trackService = {
 
   // Generate a signed URL for streaming
   async getStreamUrl(filePath) {
-    console.log(filePath);
+    console.log("File path: ", filePath);
     const { data, error } = await supabase.storage
       .from('audio-files')
-      .createSignedUrl(filePath, 3600, {
-        download: false, // Set to false to enable streaming
-      });
+      .getPublicUrl(filePath);
 
     if (error) {
       console.error('Error creating signed URL:', error);
       return null;
     }
 
-    return data.signedUrl;
+    return data.publicUrl;
   },
 
   // Update track duration after metadata loads

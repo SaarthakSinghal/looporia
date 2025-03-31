@@ -8,6 +8,7 @@ Looporia is a modern web application built with React, TypeScript, and Tailwind 
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Tech Stack](#tech_stack)
 - [Project Structure](#project-structure)
 - [Running the Project](#running-the-project)
 - [Features](#features)
@@ -50,6 +51,27 @@ Before you begin, ensure you have the following installed on your system:
    VITE_SUPABASE_URL=your-supabase-url
    VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
    ```
+
+## Tech Stack
+### Frontend Framework
+
+- React 18 with TypeScript for type-safe component development
+- Vite as our blazing-fast build tool and development server
+- React Router for seamless client-side navigation
+
+### Styling & UI
+
+- Tailwind CSS for utility-first styling with custom retro-themed extensions
+- shadcn/ui component library providing accessible, customizable UI components
+
+### Backend & Storage
+
+Supabase as our backend-as-a-service platform, providing:
+
+  - Authentication with social provider integration
+  - PostgreSQL database for user data and music metadata
+  - Storage buckets for audio files and album artwork
+  - Real-time subscriptions for collaborative features
 
 ## Project Structure
 

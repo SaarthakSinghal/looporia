@@ -22,9 +22,7 @@ function AudioUploadTest() {
     try {
       // Get list of files from public/audio folder
       const audioFiles = [
-        '/audio/RADWIMPS, Toaka - Suzume (feat. Toaka).mp3',
-        '/audio/Ado - Usseewa.mp3',
-        '/audio/Adele - Skyfall.mp3'
+        '/audio/Adele - Skyfall.opus'
       ];
 
       for (const filePath of audioFiles) {
@@ -35,25 +33,26 @@ function AudioUploadTest() {
 
         // Create a File object
         const fileName = filePath.split('/').pop().replace('.mp3', '');
-        const file = new File([blob], fileName + '.mp3', { type: 'audio/mpeg' });
+        const file = new File([blob], fileName, { type: 'audio/mpeg' });
         console.log(file)
 
         // Upload to Supabase
         const path = await uploadAudio(file, fileName);
+        console.log(path)
 
         if (path) {
           // Add to database with extracted metadata
           const title = fileName.replace(/_/g, ' ');
 
           await addTrackToDatabase(title, path);
-        }
+        } 
       }
 
       // Refresh track list
       const updatedTracks = await trackService.getAllTracks();
       setTracks(updatedTracks);
 
-      console.log(updatedTracks);
+      console.log("Tracks:", updatedTracks);
     } catch (error) {
       console.error('Error uploading local files:', error);
     }
