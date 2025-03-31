@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import MusicExploration from "./pages/MusicExploration";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,11 @@ const App = () => (
             <Route path="/dashboard" element={
               <AuthGuard>
                 <Dashboard />
+              </AuthGuard>
+            } />
+            <Route path="/explore" element={
+              <AuthGuard>
+                <MusicExploration />
               </AuthGuard>
             } />
             <Route path="/about" element={<About />} />

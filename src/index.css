@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Courier+Prime&display=swap');
 
 @tailwind base;
@@ -86,6 +85,14 @@
   body {
     @apply bg-retro-paper text-retro-brown-3 font-crt;
     background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.08' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 5v1H5V0zm1 5V1H1v4h5z'/%3E%3C/g%3E%3C/svg%3E");
+    /* Retro cursor */
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%238B5A3C' d='M0,0 L0,12 L3,9 L5,14 L7,13 L5,8 L8,8 Z'/%3E%3C/svg%3E") 0 0, auto;
+  }
+  
+  /* Retro text selection */
+  ::selection {
+    background-color: #B68E5C;
+    color: #F2E6D8;
   }
 }
 
@@ -143,5 +150,14 @@
       rgba(0, 0, 255, 0.06)
     );
     z-index: 11;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
   }
 }

@@ -51,10 +51,10 @@ const sampleTracks: Track[] = [
   }
 ];
 
-const RetroMusicPlayer: React.FC = () => {
+const RetroMusicPlayer: React.FC<{autoPlay?: boolean}> = ({ autoPlay = true }) => {
   const [tracks] = useState<Track[]>(sampleTracks);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(autoPlay);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.7);
@@ -89,13 +89,20 @@ const RetroMusicPlayer: React.FC = () => {
       
       audioRef.current.addEventListener('loadedmetadata', loadMetadata);
       
+      if (autoPlay) {
+        audioRef.current.play().catch(err => {
+          console.error('Autoplay failed:', err);
+          setIsPlaying(false);
+        });
+      }
+      
       return () => {
         if (audioRef.current) {
           audioRef.current.removeEventListener('loadedmetadata', loadMetadata);
         }
       };
     }
-  }, [currentTrackIndex]);
+  }, [currentTrackIndex, autoPlay]);
 
   // Update time as audio plays
   useEffect(() => {
@@ -127,7 +134,6 @@ const RetroMusicPlayer: React.FC = () => {
   useEffect(() => {
     if (audioRef.current) {
       const handleEnded = () => {
-        // Go to next track or stop at end of playlist
         if (currentTrackIndex < tracks.length - 1) {
           setCurrentTrackIndex(currentTrackIndex + 1);
         } else {
@@ -157,13 +163,11 @@ const RetroMusicPlayer: React.FC = () => {
   // Skip to previous track
   const prevTrack = () => {
     if (currentTime > 3) {
-      // If more than 3 seconds into track, restart current track
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         setCurrentTime(0);
       }
     } else {
-      // Otherwise go to previous track
       setCurrentTrackIndex((prevIndex) => 
         prevIndex === 0 ? tracks.length - 1 : prevIndex - 1
       );
@@ -213,16 +217,13 @@ const RetroMusicPlayer: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto my-8">
-      {/* Audio player visible UI */}
       <div className="bg-retro-beige retro-border p-4 relative overflow-hidden pixel-corners">
-        {/* Player header with "vintage" look */}
         <div className="bg-retro-brown-2 text-retro-beige p-2 mb-4 font-pixel text-center text-lg shadow-inner">
           <span className="inline-block animate-pulse">
             RETRO RHYTHM REVAMP
           </span>
         </div>
         
-        {/* Album art and visualizer area */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="w-full md:w-1/3 retro-border bg-retro-brown-1 aspect-square flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-crt-lines"></div>
@@ -254,7 +255,6 @@ const RetroMusicPlayer: React.FC = () => {
           </div>
         </div>
         
-        {/* Time progress and slider */}
         <div className="mb-4">
           <div className="flex justify-between text-retro-brown-3 font-retro text-md mb-1">
             <span>{formatTime(currentTime)}</span>
@@ -269,7 +269,6 @@ const RetroMusicPlayer: React.FC = () => {
           />
         </div>
         
-        {/* Playback controls */}
         <div className="flex justify-between items-center mb-6">
           <button 
             onClick={prevTrack}
@@ -323,7 +322,6 @@ const RetroMusicPlayer: React.FC = () => {
           </div>
         </div>
         
-        {/* Track list section */}
         <div className="retro-border bg-retro-tan-1 p-2">
           <h3 className="font-retro text-xl text-retro-brown-3 mb-2 text-center">PLAYLIST</h3>
           <TrackList 
@@ -333,7 +331,6 @@ const RetroMusicPlayer: React.FC = () => {
           />
         </div>
         
-        {/* Audio element (hidden) */}
         <audio 
           ref={audioRef}
           src={currentTrack.src}

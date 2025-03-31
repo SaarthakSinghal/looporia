@@ -1,11 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useLocation } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Volume2, VolumeX } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const Auth = () => {
@@ -15,9 +15,32 @@ const Auth = () => {
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [bgMusicPlaying, setBgMusicPlaying] = useState(true);
   
   const { signIn, signUp } = useAuth();
   const location = useLocation();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
+  // Background music
+  useEffect(() => {
+    if (audioRef.current) {
+      if (bgMusicPlaying) {
+        audioRef.current.volume = 0.3;
+        audioRef.current.play().catch(err => {
+          console.error("Could not autoplay background music:", err);
+          setBgMusicPlaying(false);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, [bgMusicPlaying]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +75,17 @@ const Auth = () => {
         </p>
       </div>
 
-      <div className="max-w-md w-full mx-auto mt-8 bg-retro-beige retro-border p-6 font-retro">
+      <div className="max-w-md w-full mx-auto mt-8 bg-retro-beige retro-border p-6 font-retro relative">
+        <div className="absolute top-2 right-2">
+          <button 
+            onClick={() => setBgMusicPlaying(!bgMusicPlaying)}
+            className="retro-btn h-8 w-8 p-0 flex items-center justify-center"
+            aria-label={bgMusicPlaying ? "Mute music" : "Play music"}
+          >
+            {bgMusicPlaying ? <Volume2 size={16} /> : <VolumeX size={16} />}
+          </button>
+        </div>
+        
         <div className="flex mb-6">
           <button 
             className={`flex-1 py-2 ${isLogin ? 'bg-retro-tan-2 text-retro-brown-3' : 'bg-retro-beige text-retro-brown-2'}`}
@@ -124,6 +157,13 @@ const Auth = () => {
           </Button>
         </form>
       </div>
+      
+      <audio 
+        ref={audioRef}
+        src="https://cdn.freesound.org/previews/632/632317_13724595-lq.mp3"
+        loop
+        preload="auto"
+      />
     </div>
   );
 };
