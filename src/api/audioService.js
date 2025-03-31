@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-
 import { supabase } from "@/integrations/supabase/client";
 
 export const uploadAudio = async (file, fileName) => {
@@ -15,14 +13,7 @@ export const uploadAudio = async (file, fileName) => {
   return data.path;
 };
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Add a new track to the database.
- * @param {string} title - The title of the track
- * @param {string} filePath - The path of the uploaded audio file
- * @returns {Promise<Object>} The newly added track object
- */
-/******  5781da6e-4be5-4694-850a-ca6845cfb5e4  *******/export const addTrackToDatabase = async (title, filePath) => {
+export const addTrackToDatabase = async (title, filePath) => {
   const { data, error } = await supabase
     .from('tracks')
     .insert([

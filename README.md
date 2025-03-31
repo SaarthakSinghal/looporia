@@ -48,8 +48,8 @@ Before you begin, ensure you have the following installed on your system:
 3. Set up environment variables:
    Create a `.env` file in the root directory:
    ```
-   VITE_SUPABASE_URL=your-supabase-url
-   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+   SUPABASE_URL=your-supabase-url
+   SUPABASE_ANON_KEY=your-supabase-anon-key
    ```
 
 ## Tech Stack
